@@ -1,10 +1,14 @@
 package com.bsimm.personapi.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,5 +42,16 @@ public class PersonController {
     public Person updatePerson(@RequestBody @Valid PersonDTO personDTO){
         return this.personService.updatePerson(personDTO.toModel());
     }
+	
+	@GetMapping
+	public List<PersonDTO> listAll(){
+		List<PersonDTO> allDtoPeople = this.personService.listAll().stream()
+				.map(person -> {
+					return new PersonDTO(person.getId(), person.getFirstName(), person.getLastName(), person.getCpf(), person.getBirthDate(), person.getPhones());
+				})
+				.collect(Collectors.toList());
+
+		return allDtoPeople;
+	}
 
 }
