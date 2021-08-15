@@ -45,5 +45,9 @@ public class PersonDTO {
 	 public Person toModel() {
 		 return new Person(this.id, this.firstName, this.lastName, this.cpf, this.birthDate, this.phones);
 	 }
+	 
+	 public PersonDTO toDTO(Person person) {
+		 return new PersonDTO(person.getId(), person.getFirstName(), person.getLastName(), person.getCpf(), person.getBirthDate(), person.getPhones());
+	 }
 	
 }

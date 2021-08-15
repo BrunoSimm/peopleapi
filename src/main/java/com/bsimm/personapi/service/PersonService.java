@@ -1,11 +1,14 @@
 package com.bsimm.personapi.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bsimm.personapi.dto.request.PersonDTO;
 import com.bsimm.personapi.entity.Person;
+import com.bsimm.personapi.exception.PersonNotFoundException;
 import com.bsimm.personapi.repository.PersonRepository;
 
 @Service
@@ -28,6 +31,21 @@ public class PersonService {
 	
 	public List<Person> listAll(){
 		return this.personRepository.findAll();
+	}
+
+	public PersonDTO findById(Long id) throws PersonNotFoundException {
+
+		Person person  = this.personRepository.findById(id)
+				.orElseThrow(() -> new PersonNotFoundException(id));
+		
+		PersonDTO personDTO = new PersonDTO();
+		return personDTO.toDTO(person);
+		
+				/*new PersonDTO(
+					optionalPerson.get().getId(), optionalPerson.get().getFirstName(),
+					optionalPerson.get().getLastName(), optionalPerson.get().getCpf(), 
+					optionalPerson.get().getBirthDate(), optionalPerson.get().getPhones()
+				);*/
 	}
 	
 	
