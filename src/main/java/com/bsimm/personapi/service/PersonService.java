@@ -1,7 +1,6 @@
 package com.bsimm.personapi.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,10 @@ public class PersonService {
         return this.personRepository.save(person);
     }
 	
-	public Person updatePerson(Person person){
+	public Person updatePerson(Person person) throws PersonNotFoundException{
+		
+		verifyIfExists(person.getId());
+		
         return this.personRepository.save(person);
     }
 	
@@ -35,8 +37,7 @@ public class PersonService {
 
 	public PersonDTO findById(Long id) throws PersonNotFoundException {
 
-		Person person  = this.personRepository.findById(id)
-				.orElseThrow(() -> new PersonNotFoundException(id));
+		Person person  = verifyIfExists(id);
 		
 		PersonDTO personDTO = new PersonDTO();
 		return personDTO.toDTO(person);
@@ -46,6 +47,18 @@ public class PersonService {
 					optionalPerson.get().getLastName(), optionalPerson.get().getCpf(), 
 					optionalPerson.get().getBirthDate(), optionalPerson.get().getPhones()
 				);*/
+	}
+
+	public void deleteById(Long id) throws PersonNotFoundException {
+		//Verificando se a person existe
+		verifyIfExists(id);
+		
+		this.personRepository.deleteById(id);
+	}
+
+	private Person verifyIfExists(Long id) throws PersonNotFoundException {
+		return this.personRepository.findById(id)
+				.orElseThrow(() -> new PersonNotFoundException(id));
 	}
 	
 	
