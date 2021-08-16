@@ -39,10 +39,10 @@ public class PersonController {
         return this.personService.createPerson(personDTO.toModel());
     }
 	
-	@PutMapping
-	@ResponseStatus(code = HttpStatus.CREATED)
-    public Person updatePerson(@RequestBody @Valid PersonDTO personDTO) throws PersonNotFoundException{
-        return this.personService.updatePerson(personDTO.toModel());
+	@PutMapping("/{id}")
+	@ResponseStatus(code = HttpStatus.OK)
+    public Person updatePerson(@RequestBody @Valid PersonDTO personDTO, @PathVariable Long id) throws PersonNotFoundException{
+        return this.personService.updateById(personDTO.toModel(),id);
     }
 	
 	@GetMapping

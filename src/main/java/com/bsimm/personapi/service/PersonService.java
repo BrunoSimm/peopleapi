@@ -24,9 +24,13 @@ public class PersonService {
         return this.personRepository.save(person);
     }
 	
-	public Person updatePerson(Person person) throws PersonNotFoundException{
+	public Person updateById(Person person, Long id) throws PersonNotFoundException{
 		
-		verifyIfExists(person.getId());
+		verifyIfExists(id);
+		
+		if (person.getId() == null) {
+			person.setId(id);
+		} 
 		
         return this.personRepository.save(person);
     }
