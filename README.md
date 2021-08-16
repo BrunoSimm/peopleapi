@@ -19,3 +19,10 @@ São necessários os seguintes pré-requisitos para a execução do projeto:
 > Java 11 ou versões superiores.
 
 > Maven 3.6.3 ou versões superiores.
+
+Para acessar o projeto em produção utilize a seguinte URL:
+
+> https://bsimm-peopleapi.herokuapp.com/api/v1/people
+
+
+###### Este é um projeto para fins de estudo, por este motivo não foi implementado (ainda) autenticação.
